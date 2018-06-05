@@ -38,7 +38,7 @@ class HX711
 		long read();
 
 		// returns an average reading; times = how many times to read
-		long read_average(byte times = 10);
+		long read_average(byte times = 1);
 
 		// returns (read_average() - OFFSET), that is the current value without the tare weight; times = how many readings to do
 		double get_value(byte times = 1);
@@ -48,7 +48,7 @@ class HX711
 		float get_units(byte times = 1);
 
 		// set the OFFSET value for tare weight; times = how many times to read the tare value
-		void tare(byte times = 10);
+		void tare(byte times = 1);
 
 		// set the SCALE value; this value is used to convert the raw data to "human readable" data (measure units)
 		void set_scale(float scale = 1.f);
