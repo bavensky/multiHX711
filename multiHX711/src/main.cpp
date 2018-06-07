@@ -32,9 +32,9 @@ float readings2[numReadings];
 int readIndex = 0;
 double average = 0;
 
-unsigned long arrayScale[] = {};
-unsigned long standCount = 0;
-
+uint32_t arrayScale[255];
+// double arrayScale[];
+int standCount = 0;
 unsigned long readSpeed = 0;
 
 boolean standState = false;
@@ -68,9 +68,13 @@ void get_average()
     // Serial.print(readings1[x]);
     // Serial.print("\t");
   }
+  // Serial.print("\n");
 
-  average = (average / (numReadings)-2.65);
+  average = (average / numReadings) - 2.65;
+  // standCount++;
+  // Serial.print("average = ");
   // Serial.println(average);
+  // delay(1000);
 }
 
 void setup()
@@ -93,35 +97,87 @@ void loop()
   // readSpeed = startMillis;
 
   get_average();
+  // Serial.print("stand = ");
+  // Serial.println(standCount);
   // Serial.println(average);
 
-  if (average > 50.00)
+  standCount = 0;
+  while (average > 50.00)
   {
     get_average();
-    standCount++;
     arrayScale[standCount] = average;
-    Serial.print(arrayScale[standCount]);
-    Serial.print("  ");
+    // Serial.print(arrayScale[standCount]);
+    // Serial.print("  ");
+    // Serial.print(" stand = ");
+    // Serial.print(standCount);
+    // Serial.print("  ");
+
+    standCount += 1;
     standState = true;
-  } else if(standState == true) {
-    Serial.print("arrayScale = ");
-    Serial.print(standCount);
-    delay(5000);
+    // delay(1000);
   }
 
+  if (standState == true)
+  {
+    // Serial.print("\n");
+    // Serial.print("\n");
+    // Serial.print("standCount = ");
+    // Serial.print(standCount);
+    // delay(2000);
+
+    // Serial.print("\nData = ");
+    // for (int i = 0; i < standCount; i++)
+    // {
+    //   Serial.print(arrayScale[i]);
+    //   Serial.print(" ");
+    // }
+
+    // Serial.print("\n");
+    // Serial.print("\n");
+    // Serial.print("lenght = ");
+    // Serial.print(sizeof(arrayScale));
+    // delay(3000);
+
+    // Serial.print("\n");
+    // Serial.print("\n");
+    int32_t arraySize = standCount;
+    arraySize = arraySize / 5;
+    // Serial.print("arraySize = ");
+    // Serial.print(arraySize);
+    // delay(3000);
+
+    // Serial.print("\n");
+    // Serial.print("\n");
+    // Serial.print("Inside array = ");
+    uint32_t sumAVE = 0;
+    for (int i = arraySize; i < (standCount - arraySize); i++)
+    {
+      sumAVE += arrayScale[i];
+      Serial.println(arrayScale[i]);
+      // Serial.print(" ");
+    }
+
+    sumAVE = sumAVE / ((standCount - arraySize) - arraySize);
+    Serial.print("sumAVE = ");
+    Serial.println(sumAVE);
+    delay(5000);
+
+    standCount = 0;
+    standState = false;
+  }
 
   //   standCount = 0;
   //   standState = false;
 
-    //   standCount = 0;
-    //   for (int x = 0; x < standCount; x++)
-    //   {
-    //     Serial.print(arrayScale[standCount]);
-    //     Serial.print("\t");
-    //   }
-    //   Serial.print("\n");
-    //   delay(3000);
-    // standState = false;
+  //   standCount = 0;
+  //   for (int x = 0; x < standCount; x++)
+  //   {
+  //     Serial.print(arrayScale[standCount]);
+  //     Serial.print("\t");
+  //   }
+  //   Serial.print("\n");
+  //   delay(3000);
+  // standState = false;
   // }
 
   // readings1[readIndex] = get_units_kg1(); // * 1000;
