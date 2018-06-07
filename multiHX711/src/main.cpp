@@ -149,18 +149,18 @@ void loop()
     // Serial.print("\n");
     // Serial.print("\n");
     // Serial.print("Inside array = ");
-    uint32_t sumAVE = 0;
+    double sumAVE = 0;
     for (int i = arraySize; i < (standCount - arraySize); i++)
     {
       sumAVE += arrayScale[i];
-      Serial.println(arrayScale[i]);
+      // Serial.println(arrayScale[i]);
       // Serial.print(" ");
     }
 
     sumAVE = sumAVE / ((standCount - arraySize) - arraySize);
-    Serial.print("sumAVE = ");
+    // Serial.print("sumAVE = ");
     Serial.println(sumAVE);
-    delay(5000);
+    // delay(5000);
 
     standCount = 0;
     standState = false;
